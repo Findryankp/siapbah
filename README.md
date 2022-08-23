@@ -1,12 +1,9 @@
-# Monitoring ED
+# SIAPBAH
 
-Aplikasi untuk melakukan monitoring produk ED seluruh Kimia Farma Group.
+Sistem informasi anggota penerima hibah provinsi jawa timur.
 
 Tim Development: 
-- Ahmad Yani
-- Lani Asep Sutisna
 - Findryan KP
-- Hesti Oktafiyani
 
 ## Requirement
 - Buat Akun [gitlab.com](https://git-scm.com/downloads)
