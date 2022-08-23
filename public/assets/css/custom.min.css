@@ -1,0 +1,55 @@
+
+/*# sourceMappingURL=custom.min.css.map */
+#select2 {
+    font-size: .8125rem!important;
+}
+
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered{
+    font-size: 14px!important;
+}
+.select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option{
+    font-size: 0.9rem;
+}
+
+.select2-container--bootstrap-5.select2-container--focus .select2-selection, .select2-container--bootstrap-5.select2-container--open .select2-selection{
+    border-color: none!important;
+    box-shadow: none!important;
+}
+
+.bg-dashboard{
+    background-image: url(../images/background.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.bg-dashboard-mobile{
+    background-image: url(../images/background-mobile.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.dt-buttons{
+    display: inline!important;
+}
+
+.dataTables_filter{
+    display: inline!important;
+    position: relative;
+    float: right;
+}
+
+div.dataTables_wrapper div.dataTables_filter input{
+    min-height: calc(1.5em + 0.5rem + 2px);
+    padding: 0.25rem 0.5rem;
+    font-size: .875rem;
+    border-radius: 0.2rem;
+}
+
+.card-bordered{
+    background: transparent;
+    border-style: solid;
+    border-width: 2px 2px 2px 2px;
+    border-color: #6c757d;
+    border-radius: 0.3rem;
+}
+
+
