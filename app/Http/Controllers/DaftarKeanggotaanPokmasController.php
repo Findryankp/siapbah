@@ -24,45 +24,49 @@ class DaftarKeanggotaanPokmasController extends Controller
 
     public function store(Request $request)
     {
-        $cekKetua = daftar_keanggotaan_pokmas::where("nik_ketua",$request->nik_ketua)->first();
+        $cekKetua = daftar_keanggotaan_pokmas::where("nik_ketua",$request->nik_ketua)
+        ->orderBy('tahun','DESC')
+        ->first();
+
         $cekAnggota = detail_anggota_pokmas::where("nik_anggota",$request->nik_ketua)->first();
         
         $cekNphd = daftar_keanggotaan_pokmas::where("no_nphd",$request->no_nphd)
-                    ->where("tahun",$request->tahun)
-                    ->first();
+        ->where("tahun",$request->tahun)
+        ->first();
 
         if (!empty($cekKetua)) 
         {
-            Alert::error('Gagal', 'NIK terdaftar sebagai KETUA di POKMAS '.$cekKetua->nama_lembaga);
-            return back();
+            $selisihTahun = $request->tahun - $cekKetua->tahun;
+            if (!($selisihTahun > 3)) {
+                Alert::error('Gagal', 'NIK terdaftar sebagai KETUA di '.$cekKetua->nama_lembaga);
+                return back();
+            }
         }
         elseif(!empty($cekAnggota))
         {
             $cekKetua = daftar_keanggotaan_pokmas::where("id",$cekAnggota->id_daftar_keanggotaan_pokmas)->first();
-            Alert::error('Gagal', 'NIK terdaftar sebagai ANGGOTA di POKMAS '.$cekKetua->nama_lembaga);
+            Alert::error('Gagal', 'NIK terdaftar sebagai ANGGOTA di '.$cekKetua->nama_lembaga);
             return back();
         }
         elseif(!empty($cekNphd)){
-            Alert::error('Gagal', 'No. NPHD tahun '.$request->tahun.' telah terdaftar di POKMAS '.$cekNphd->nama_lembaga);
+            Alert::error('Gagal', 'No. NPHD tahun '.$request->tahun.' telah terdaftar di '.$cekNphd->nama_lembaga);
             return back();
         }
-        else
-        {
-            daftar_keanggotaan_pokmas::create([
-                "tahun"=> $request->tahun,
-                "no_nphd"=> $request->no_nphd,
-                "nama_lembaga"=> $request->nama_lembaga,
-                "nama_ketua"=> $request->nama_ketua,
-                "nik_ketua"=> $request->nik_ketua,
-                "jabatan"=> $request->jabatan,
-                "alamat_lembaga"=> $request->alamat_lembaga,
-                "kota_kab"=> $request->kota_kab,
-            ]);
+        
+        daftar_keanggotaan_pokmas::create([
+            "tahun"=> $request->tahun,
+            "no_nphd"=> $request->no_nphd,
+            "nama_lembaga"=> $request->nama_lembaga,
+            "nama_ketua"=> $request->nama_ketua,
+            "nik_ketua"=> $request->nik_ketua,
+            "jabatan"=> $request->jabatan,
+            "alamat_lembaga"=> $request->alamat_lembaga,
+            "kota_kab"=> $request->kota_kab,
+        ]);
 
-            activity()->log('Menambahkan daftar keanggotaan pokmas');
-            Alert::success('Berhasil', 'Data berhasil ditambah');
-            return back();
-        }
+        activity()->log('Menambahkan daftar keanggotaan pokmas');
+        Alert::success('Berhasil', 'Data berhasil ditambah');
+        return back();
     }
 
     public function storeAnggota(Request $request)
@@ -72,13 +76,13 @@ class DaftarKeanggotaanPokmasController extends Controller
         
         if (!empty($cekKetua)) 
         {
-            Alert::error('Gagal', 'NIK terdaftar sebagai ketua di POKMAS '.$cekKetua->nama_lembaga);
+            Alert::error('Gagal', 'NIK terdaftar sebagai ketua di '.$cekKetua->nama_lembaga);
             return back();
         }
         elseif(!empty($cekAnggota))
         {
             $cekKetua = daftar_keanggotaan_pokmas::where("id",$cekAnggota->id_daftar_keanggotaan_pokmas)->first();
-            Alert::error('Gagal', 'NIK terdaftar sebagai anggota di POKMAS '.$cekKetua->nama_lembaga);
+            Alert::error('Gagal', 'NIK terdaftar sebagai anggota di '.$cekKetua->nama_lembaga);
             return back();
         }
         else
