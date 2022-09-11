@@ -4,10 +4,12 @@ namespace App\Imports;
 
 use App\Models\Activity;
 use App\Models\ActivitySub;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Session;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ActivityImport implements ToModel
+
+class ActivityImport implements ToModel,WithHeadingRow
 {
     /**
     * @param array $row

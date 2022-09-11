@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\MasterEntitas;
 use App\Models\User;
 use App\Models\daftar_keanggotaan_pokmas;
 use App\Models\detail_anggota_pokmas;
 use App\Models\KotaKab;
+
+use App\Imports\DaftarAnggota;
 
 class DaftarKeanggotaanPokmasController extends Controller
 {
@@ -105,5 +108,26 @@ class DaftarKeanggotaanPokmasController extends Controller
         $ketua = daftar_keanggotaan_pokmas::where("id",$id)->get();
         $anggota = detail_anggota_pokmas::where("id_daftar_keanggotaan_pokmas",$id)->get();
         return view('apps.data.detail-anggota', compact('ketua','anggota','kota_kab'));
+    }
+
+    public function import(Request $request){
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+ 
+        // menangkap file excel
+        $file = $request->file('file');
+ 
+        // membuat nama file unik
+        $nama_file = rand().$file->getClientOriginalName();
+ 
+        // upload ke folder file_siswa di dalam folder public
+        $file->move(public_path('/upload/'),$nama_file);
+ 
+        // import data
+        Excel::import(new DaftarAnggota, public_path('/upload/'.$nama_file));
+
+        Alert::success('Berhasil', 'Data berhasil diimport');
+        return back();
     }
 }
