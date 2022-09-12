@@ -72,6 +72,27 @@ class DaftarKeanggotaanPokmasController extends Controller
         return back();
     }
 
+    public function delete($id)
+    {
+        $pokmas = daftar_keanggotaan_pokmas::find($id);
+        $tempId = $pokmas->id;
+        $pokmas->delete();
+
+        $deleteAnggota = detail_anggota_pokmas::where('id_daftar_keanggotaan_pokmas',$id)->delete();
+
+        activity()->log('Menghapus data pokmas');
+        Alert::success('Berhasil', 'Data berhasil dihapus');
+        return back();
+    }
+
+    public function deleteAnggota($id)
+    {
+        detail_anggota_pokmas::where('id',$id)->delete();
+        activity()->log('Menghapus data anggota pokmas');
+        Alert::success('Berhasil', 'Data berhasil dihapus');
+        return back();
+    }
+
     public function storeAnggota(Request $request)
     {
         $cekKetua = daftar_keanggotaan_pokmas::where("nik_ketua",$request->nik_anggota)->first();

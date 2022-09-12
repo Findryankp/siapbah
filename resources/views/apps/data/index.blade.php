@@ -27,7 +27,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">No</th>
-                                        <th scope="col">Anggota</th>
+                                        <th scope="col">Aksi</th>
                                         <th scope="col">Tahun</th>
                                         <th scope="col">No Nphd</th>
                                         <th scope="col">Nama Lembaga</th>
@@ -45,6 +45,7 @@
                                         <td>
                                             <button id_daftar_keanggotaan_pokmas="{{$row->id}}" class="btn btn-sm btn-primary btn_add_anggota"><i class="ri-add-line"></i></button>
                                             <a href="{{url('data/detail-anggota',$row->id)}}" class="btn btn-sm btn-success"><i class="ri-eye-line"></i></a>
+                                            <a href="{{url('data/delete',$row->id)}}" class="btn btn-sm btn-danger"><i class="ri-delete-bin-2-line"></i></a>
                                         </td>
                                         <td>{{ $row->tahun }}</td>
                                         <td>{{ $row->no_nphd }}</td>

@@ -32,6 +32,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/store-anggota',[DaftarKeanggotaanPokmasController::class, 'storeAnggota']);
         Route::get('/detail-anggota/{id}',[DaftarKeanggotaanPokmasController::class, 'detailAnggota']);
         Route::post('/import',       [DaftarKeanggotaanPokmasController::class, 'import']);
+        Route::get('/delete/{id}',[DaftarKeanggotaanPokmasController::class, 'delete']);
+        Route::get('/delete-anggota/{id}',[DaftarKeanggotaanPokmasController::class, 'deleteAnggota']);
     });
     
 

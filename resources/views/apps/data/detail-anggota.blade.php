@@ -42,6 +42,7 @@
                                     @forelse($ketua as $i => $row)
                                     <tr>
                                         <td>{{ $i+1 }}</td>
+                                        
                                         <td>{{ $row->tahun }}</td>
                                         <td>{{ $row->no_nphd }}</td>
                                         <td>{{ $row->nama_lembaga }}</td>
@@ -84,6 +85,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">No</th>
+                                        <th scope="col">Aksi</th>
                                         <th scope="col">NIK</th>
                                         <th scope="col">Nama</th>
                                     </tr>
@@ -92,6 +94,9 @@
                                     @forelse($anggota as $i => $row)
                                     <tr>
                                         <td>{{ $i+1 }}</td>
+                                        <td>
+                                            <a href="{{url('data/delete-anggota',$row->id)}}" class="btn btn-sm btn-danger"><i class="ri-delete-bin-2-line"></i></a>
+                                        </td>
                                         <td>{{ $row->nik_anggota }}</td>
                                         <td>{{ $row->nama_anggota }}</td>
                                     </tr>
