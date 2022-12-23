@@ -20,6 +20,12 @@ class DaftarKeanggotaanPokmasController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->status != "1") {
+            Auth::logout();
+            Alert::error('Gagal', 'Akun Belum Aktif');
+            return redirect('/login');
+        }
+
         $kota_kab = KotaKab::all();
         $daftar_keanggotaan_pokmas = daftar_keanggotaan_pokmas::orderBy('id', 'DESC')->get();
         return view('apps.data.index', compact('daftar_keanggotaan_pokmas','kota_kab'));

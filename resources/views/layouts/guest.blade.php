@@ -59,6 +59,8 @@
 <script src="assets/js/pages/particles.app.js"></script>
 <!-- password-addon init -->
 <script src="assets/js/pages/password-addon.init.js"></script>
+
+@include('sweetalert::alert')
 </body>
 
 </html>
