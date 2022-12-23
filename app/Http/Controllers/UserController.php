@@ -10,11 +10,40 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
+    public function register()
+    {
+        return view('auth.register');
+    }
+
+    public function storeRegister(Request $request)
+    {
+        $request->validate([
+            'email' =>'unique:users,email'
+        ]);
+
+        $user = User::create([
+            'name'         => strtoupper($request->name),
+            'email'        => $request->email,
+            'kode_entitas' => "-",
+            'job_title'    => $request->job_title,
+            'password'     => Hash::make($request->password),
+            'status'       => 0,
+        ]);
+
+        $user->assignRole("User");
+
+        activity()->log('Menambahkan User'.$request->name);
+        Alert::success('Berhasil', 'Data berhasil ditambah');
+
+        return redirect('login');
+    }
+
     public function index()
     {
         $users = User::orderBy('id', 'ASC')
                 ->join('model_has_roles','model_has_roles.model_id','users.id')
                 ->get();
+
 
         $data['users'] = json_encode($users);
         return view('apps.users.index', compact('users','data'));
@@ -31,7 +60,8 @@ class UserController extends Controller
             'email' => $request->email,
             'kode_entitas' => "-",
             'job_title' => $request->job_title,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'status'       => 1,
         ]);
 
         $user->assignRole($request->role);
@@ -58,6 +88,7 @@ class UserController extends Controller
             'kode_entitas' => "-",
             'job_title' => $request->job_title,
             'hak_akses' => $request->hak_akses,
+            'status'       => $request->status,
         ]);
 
         $user->assignRole($request->role);

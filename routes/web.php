@@ -16,7 +16,9 @@ use App\Http\Controllers\ActivityLogController;
 |
 */
 
-//front page
+Route::get('/register', [UserController::class, 'register'])->name('register');
+Route::post('/register',[UserController::class, 'storeRegister']);
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/',                     [DaftarKeanggotaanPokmasController::class, 'index']);
 
@@ -29,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('data')->group(function () {
         Route::get('/',             [DaftarKeanggotaanPokmasController::class, 'index']);
         Route::post('/',            [DaftarKeanggotaanPokmasController::class, 'store']);
+        Route::post('/update',      [DaftarKeanggotaanPokmasController::class, 'update']);
         Route::post('/store-anggota',[DaftarKeanggotaanPokmasController::class, 'storeAnggota']);
         Route::get('/detail-anggota/{id}',[DaftarKeanggotaanPokmasController::class, 'detailAnggota']);
         Route::post('/import',       [DaftarKeanggotaanPokmasController::class, 'import']);

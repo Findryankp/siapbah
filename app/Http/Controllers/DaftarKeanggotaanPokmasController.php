@@ -123,6 +123,56 @@ class DaftarKeanggotaanPokmasController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+        $data = daftar_keanggotaan_pokmas::find($request->id);
+        if ($request->nik_ketua != $data->nik_ketua) {
+            $cekKetua = daftar_keanggotaan_pokmas::where("nik_ketua",$request->nik_ketua)
+            ->orderBy('tahun','DESC')
+            ->first();
+
+            $cekAnggota = detail_anggota_pokmas::where("nik_anggota",$request->nik_ketua)->first();
+
+            $cekNphd = daftar_keanggotaan_pokmas::where("no_nphd",$request->no_nphd)
+            ->where("tahun",$request->tahun)
+            ->first();
+
+            if (!empty($cekKetua)) 
+            {
+                $selisihTahun = $request->tahun - $cekKetua->tahun;
+                if (!($selisihTahun > 3)) {
+                    Alert::error('Gagal', 'NIK terdaftar sebagai KETUA di '.$cekKetua->nama_lembaga);
+                    return back();
+                }
+            }
+            elseif(!empty($cekAnggota))
+            {
+                $cekKetua = daftar_keanggotaan_pokmas::where("id",$cekAnggota->id_daftar_keanggotaan_pokmas)->first();
+                Alert::error('Gagal', 'NIK terdaftar sebagai ANGGOTA di '.$cekKetua->nama_lembaga);
+                return back();
+            }
+            elseif(!empty($cekNphd)){
+                Alert::error('Gagal', 'No. NPHD tahun '.$request->tahun.' telah terdaftar di '.$cekNphd->nama_lembaga);
+                return back();
+            }
+        }
+
+        daftar_keanggotaan_pokmas::where('id',$request->id)->update([
+            "tahun"=> $request->tahun,
+            "no_nphd"=> $request->no_nphd,
+            "nama_lembaga"=> $request->nama_lembaga,
+            "nama_ketua"=> $request->nama_ketua,
+            "nik_ketua"=> $request->nik_ketua,
+            "jabatan"=> $request->jabatan,
+            "alamat_lembaga"=> $request->alamat_lembaga,
+            "kota_kab"=> $request->kota_kab,
+        ]);
+
+        activity()->log('Update detail keanggotaan pokmas '.$request->nama_lembaga);
+        Alert::success('Berhasil', 'Data berhasil diupdate');
+        return back();
+    }
+
     public function detailAnggota($id)
     {
         $kota_kab = KotaKab::all();
@@ -135,16 +185,16 @@ class DaftarKeanggotaanPokmasController extends Controller
         $this->validate($request, [
             'file' => 'required|mimes:csv,xls,xlsx'
         ]);
- 
+
         // menangkap file excel
         $file = $request->file('file');
- 
+
         // membuat nama file unik
         $nama_file = rand().$file->getClientOriginalName();
- 
+
         // upload ke folder file_siswa di dalam folder public
         $file->move(public_path('/upload/'),$nama_file);
- 
+
         // import data
         Excel::import(new DaftarAnggota, public_path('/upload/'.$nama_file));
 

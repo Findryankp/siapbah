@@ -44,7 +44,7 @@
                         </ul>
                     </div>
                 </li>
-                @if(Auth::user()->roles->first()->name == 'Admin')
+                @role("Admin")
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ url('users') }}">
                         <i class="ri-user-2-fill"></i> <span data-key="t-dashboards">Manage User</span>
@@ -55,7 +55,7 @@
                         <i class="ri-flag-fill"></i> <span data-key="t-dashboards">Activity User</span>
                     </a>
                 </li>
-                @endif
+                @endrole
                 <!-- end Dashboard Menu -->
             </ul>
         </div>

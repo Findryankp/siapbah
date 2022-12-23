@@ -41,9 +41,11 @@
                                 <tbody>
                                     @forelse($daftar_keanggotaan_pokmas as $i => $row)
                                     <tr>
-                                        <td>{{ $row->id }}</td>
+                                        <td>{{ $i+1 }}</td>
                                         <td>
                                             <button id_daftar_keanggotaan_pokmas="{{$row->id}}" class="btn btn-sm btn-primary btn_add_anggota"><i class="ri-add-line"></i></button>
+                                            <button data="{{$row}}" class="btn btn-sm btn-warning btn_edit"><i class="ri-edit-box-line"></i></button>
+
                                             <a href="{{url('data/detail-anggota',$row->id)}}" class="btn btn-sm btn-success"><i class="ri-eye-line"></i></a>
                                             <a href="{{url('data/delete',$row->id)}}" class="btn btn-sm btn-danger"><i class="ri-delete-bin-2-line"></i></a>
                                         </td>
@@ -57,18 +59,6 @@
                                         <td>{{ $row->kota_kab }}</td>
                                     </tr>
                                     @empty
-                                    <tr>
-                                        <td>Data tidak ada</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
                                     @endforelse
                                 </tbody>
                             </table>
@@ -88,12 +78,10 @@
 @include('apps.data.components.modal-add')
 @include('apps.data.components.modal-add-anggota')
 @include('apps.data.components.modal-import')
+@include('apps.data.components.modal-edit')
 @stop
 @push('js')
 <script>
-    // <button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
-    //         IMPORT EXCEL
-    //     </button>
     $(document).ready(function() {
         $('#datatable-v').DataTable({
             dom: 'Bfrtip',
@@ -113,10 +101,10 @@
                         $('#importExcel').modal('show')
                     }
                 },
-                { text: '<i class="ri-file-copy-line align-bottom me-1"></i> Copy', extend: 'copy', className: 'btn btn-outline-primary'},
-                { text: '<i class="ri-file-excel-2-line align-bottom me-1"></i> Excel', extend: 'excel', className: 'btn btn-outline-primary'},
+                // { text: '<i class="ri-file-copy-line align-bottom me-1"></i> Copy', extend: 'copy', className: 'btn btn-outline-primary'},
+                // { text: '<i class="ri-file-excel-2-line align-bottom me-1"></i> Excel', extend: 'excel', className: 'btn btn-outline-primary'},
                 { text: '<i class="ri-file-pdf-line align-bottom me-1"></i> PDF', extend: 'pdf', className: 'btn btn-outline-primary'},
-                { text: '<i class="ri-printer-line align-bottom me-1"></i> Print', extend: 'print', className: 'btn btn-outline-primary'},
+                // { text: '<i class="ri-printer-line align-bottom me-1"></i> Print', extend: 'print', className: 'btn btn-outline-primary'},
                 ]},
             });
 
@@ -148,6 +136,23 @@
         }else{
             $('.text_peringatan').hide();
         }
+    });
+
+    $('.btn_edit').click(function()
+    {
+        var data = $(this).attr('data')
+        data = JSON.parse(data)
+        $('#editTahun').val(data.tahun)
+        $('#editNoNphd').val(data.no_nphd)
+        $('#editNamaLembaga').val(data.nama_lembaga)
+        $('#editNamaKetua').val(data.nama_ketua)
+        $('#editNikKetua').val(data.nik_ketua)
+        $('#editJabatan').val(data.jabatan)
+        $('#editAlamatLembaga').val(data.alamat_lembaga)
+        $('#editKotaKab').val(data.kota_kab)
+        $('#editId').val(data.id)
+
+        $('#editModal').modal('show');
     });
 </script>
 @endpush

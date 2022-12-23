@@ -37,6 +37,14 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select id="edit_status" name="status" class="form-control" required>
+                            <option value="1">Aktif</option>
+                            <option value="0">Non Aktif</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3" style="display:none;">
                         <input type="hidden" name="hak_akses" id="input_edit_hak_akses">
                         <label class="form-label">Akses</label>
                         <div class="row" id="hak_akses_edit">

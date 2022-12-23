@@ -38,10 +38,9 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5">
                 <div class="card mt-4">
-
                     <div class="card-body p-4">
                         <div class="text-center mt-2">
-                            <h5 class="text-primary">Welcome Back !</h5>
+                            <h5 class="text-primary">Welcome !</h5>
                             <p class="text-muted">Sign in to continue to SIAPBAH.</p>
                         </div>
                         <div class="p-2 mt-4">
@@ -69,6 +68,10 @@
                                         <button type="submit" class="btn btn-primary w-100" type="submit">Login</button>
                                     </div>
                                 </div>
+
+                                <p class="mt-3 text-center">
+                                    Don't have account? <a href="{{url('register')}}"> Register</a>
+                                </p>
                             </form>
                         </div>
                     </div>
