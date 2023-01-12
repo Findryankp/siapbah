@@ -19,7 +19,7 @@
     <!-- end page title -->
     <div class="row">
         <div class="col-lg-12 mb-3">
-            <div class="card">
+            <div class="card border border-dark">
                 <div class="card-body">
                     <h5>Detail Ketua</h5>
                     <div id="customerList">
@@ -76,7 +76,7 @@
         </div>
 
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card border border-dark">
                 <div class="card-body">
                     <h5>Detail Anggota</h5>
                     <div id="customerList">

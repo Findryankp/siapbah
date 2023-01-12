@@ -67,6 +67,14 @@
                                     <label class="form-label">Job Title</label>
                                     <input type="text" name="job_title" class="form-control" placeholder="Job Title" required>
                                 </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Kota/Kab</label>
+                                    <select class="form-control select2" name="kota_kab">
+                                        @foreach($kota_kab as $k)
+                                        <option value="{{$k->id}}">{{$k->nama_kota_kab}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="flex items-center justify-end mt-4">
                                     <div class="mt-4">
                                         <button type="submit" class="btn btn-primary w-100" type="submit">Register</button>

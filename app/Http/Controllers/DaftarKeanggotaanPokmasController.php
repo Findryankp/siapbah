@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
-
-use App\Models\MasterEntitas;
 use App\Models\User;
 use App\Models\daftar_keanggotaan_pokmas;
 use App\Models\detail_anggota_pokmas;
@@ -26,8 +24,16 @@ class DaftarKeanggotaanPokmasController extends Controller
             return redirect('/login');
         }
 
-        $kota_kab = KotaKab::all();
-        $daftar_keanggotaan_pokmas = daftar_keanggotaan_pokmas::orderBy('id', 'DESC')->get();
+        if (Auth::user()->hasRole('Admin')) {
+            $kota_kab = KotaKab::all();
+            $daftar_keanggotaan_pokmas = daftar_keanggotaan_pokmas::orderBy('id', 'DESC')->get();
+        }else{
+            $kota_kab = KotaKab::where('id',Auth::user()->kota_kab)->get();
+            $daftar_keanggotaan_pokmas = daftar_keanggotaan_pokmas::where('kota_kab_id',Auth::user()->kota_kab)
+            ->orderBy('id', 'DESC')
+            ->get();
+        }
+        
         return view('apps.data.index', compact('daftar_keanggotaan_pokmas','kota_kab'));
     }
 
@@ -61,16 +67,19 @@ class DaftarKeanggotaanPokmasController extends Controller
             Alert::error('Gagal', 'No. NPHD tahun '.$request->tahun.' telah terdaftar di '.$cekNphd->nama_lembaga);
             return back();
         }
+
+        $kota_kab = KotaKab::where('nama_kota_kab',$request->kota_kab)->first();
         
         daftar_keanggotaan_pokmas::create([
-            "tahun"=> $request->tahun,
-            "no_nphd"=> $request->no_nphd,
-            "nama_lembaga"=> $request->nama_lembaga,
-            "nama_ketua"=> $request->nama_ketua,
-            "nik_ketua"=> $request->nik_ketua,
-            "jabatan"=> $request->jabatan,
+            "tahun"         => $request->tahun,
+            "no_nphd"       => $request->no_nphd,
+            "nama_lembaga"  => $request->nama_lembaga,
+            "nama_ketua"    => $request->nama_ketua,
+            "nik_ketua"     => $request->nik_ketua,
+            "jabatan"       => $request->jabatan,
             "alamat_lembaga"=> $request->alamat_lembaga,
-            "kota_kab"=> $request->kota_kab,
+            "kota_kab"      => $request->kota_kab,
+            "kota_kab_id"   => $kota_kab->id
         ]);
 
         activity()->log('Menambahkan daftar keanggotaan pokmas');
@@ -163,6 +172,8 @@ class DaftarKeanggotaanPokmasController extends Controller
             }
         }
 
+        $kota_kab = KotaKab::where('nama_kota_kab',$request->kota_kab)->first();
+
         daftar_keanggotaan_pokmas::where('id',$request->id)->update([
             "tahun"=> $request->tahun,
             "no_nphd"=> $request->no_nphd,
@@ -172,6 +183,7 @@ class DaftarKeanggotaanPokmasController extends Controller
             "jabatan"=> $request->jabatan,
             "alamat_lembaga"=> $request->alamat_lembaga,
             "kota_kab"=> $request->kota_kab,
+            "kota_kab_id"   => $kota_kab->id
         ]);
 
         activity()->log('Update detail keanggotaan pokmas '.$request->nama_lembaga);

@@ -13,6 +13,9 @@
                     <label class="form-label">NIK Anggota
                         <i class="text-danger text_peringatan" style="display: none;">(NIK harus 16 digit)</i>
                     </label>
+
+                    <br>
+
                     <input type="text" name="nik_anggota" class="form-control input_ktp" placeholder="" required>
                     <div class="mb-3">
                         <label class="form-label">Nama Anggota</label>

@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\KotaKab;
 
 class UserController extends Controller
 {
     public function register()
     {
-        return view('auth.register');
+        $kota_kab = KotaKab::all();
+        return view('auth.register',compact('kota_kab'));
     }
 
     public function storeRegister(Request $request)
@@ -28,6 +30,7 @@ class UserController extends Controller
             'job_title'    => $request->job_title,
             'password'     => Hash::make($request->password),
             'status'       => 0,
+            "kota_kab"     => $request->kota_kab,
         ]);
 
         $user->assignRole("User");
@@ -44,9 +47,9 @@ class UserController extends Controller
                 ->join('model_has_roles','model_has_roles.model_id','users.id')
                 ->get();
 
-
+        $kota_kab = KotaKab::all();
         $data['users'] = json_encode($users);
-        return view('apps.users.index', compact('users','data'));
+        return view('apps.users.index', compact('users','data','kota_kab'));
     }
 
     public function store(Request $request)
@@ -62,6 +65,7 @@ class UserController extends Controller
             'job_title' => $request->job_title,
             'password' => Hash::make($request->password),
             'status'       => 1,
+            "kota_kab"     => $request->kota_kab,
         ]);
 
         $user->assignRole($request->role);
@@ -83,12 +87,13 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->update([
-            'name' => strtoupper($request->name),
-            'email' => $request->email,
-            'kode_entitas' => "-",
-            'job_title' => $request->job_title,
-            'hak_akses' => $request->hak_akses,
-            'status'       => $request->status,
+            'name'          => strtoupper($request->name),
+            'email'         => $request->email,
+            'kode_entitas'  => "-",
+            'job_title'     => $request->job_title,
+            'hak_akses'     => $request->hak_akses,
+            'status'        => $request->status,
+            "kota_kab"      => $request->kota_kab,
         ]);
 
         $user->assignRole($request->role);

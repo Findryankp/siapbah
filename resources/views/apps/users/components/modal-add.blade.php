@@ -26,6 +26,14 @@
                         <input type="text" name="job_title" class="form-control" placeholder="Job Title" required>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Kota/Kab</label>
+                        <select class="form-control" name="kota_kab">
+                            @foreach($kota_kab as $k)
+                                <option value="{{$k->id}}">{{$k->nama_kota_kab}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">Role</label>
                         <select name="role" class="form-control" required>
                             <option value="Admin">Admin</option>

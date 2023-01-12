@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityLogController extends Controller
 {
@@ -14,7 +15,14 @@ class ActivityLogController extends Controller
      */
     public function index()
     {
-        $activity_log = ActivityLog::orderBy('created_at', 'DESC')->paginate();
+        if (Auth::user()->hasRole('Admin')) {
+            $activity_log = ActivityLog::orderBy('created_at', 'DESC')->paginate();
+        }else{
+            $activity_log = ActivityLog::where('causer_id',Auth::user()->id)
+                        ->orderBy('created_at', 'DESC')
+                        ->paginate();
+        }
+
         return view('apps.activity-log.index', compact('activity_log'));
     }
 

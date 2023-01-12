@@ -121,6 +121,7 @@
             $('#edit_email').val(users[index].email);
             $('#edit_job_title').val(users[index].job_title);
             $('#edit_status').val(users[index].status);
+            $('#edit_kota_kab').val(users[index].kota_kab);
 
             var role = users[index].role_id
             if (role == '1') {

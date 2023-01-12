@@ -37,6 +37,15 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label">Kota/Kab</label>
+                        <select id="edit_kota_kab" class="form-control" name="kota_kab">
+                            @foreach($kota_kab as $k)
+                                <option value="{{$k->id}}">{{$k->nama_kota_kab}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label">Status</label>
                         <select id="edit_status" name="status" class="form-control" required>
                             <option value="1">Aktif</option>

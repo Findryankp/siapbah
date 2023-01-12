@@ -19,7 +19,7 @@
     <!-- end page title -->
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card border border-dark">
                 <div class="card-body">
                     <div id="customerList">
                         <div class="table-responsive mt-3 mb-1">
